@@ -1,0 +1,5 @@
+A Spring Boot project with JPA, DTOs, REST and Thymeleaf
+SecurityConfig.java
+ WebConfig.java: Enables CORS, resource handling, etc.
+
+ ApplicationConfig.java : Define beans used across the app — e.g. password encoder.

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Event Details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+
+<body>
+<h1>Event Details</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>EventDetail Name </th>
+        <th>Description</th>
+        <th>Location Note</th>
+        <th>Event Data</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="detail : ${eventDetails}">
+        <td th:text="${detail.id}"></td>
+        <td th:text="${detail.name}"></td>
+        <td th:text="${detail.description}"></td>
+        <td th:text="${detail.locationNote}"></td>
+        <td th:text="${detail.event != null ? detail.event.name : 'Not imported'}"></td>
+        <td>
+            <a th:href="@{'/eventDetail/edit/' + ${detail.id}}">Edit</a> |
+
+
+            <form th:action="@{|/eventDetail/delete/${detail.id}|}" method="post" style="display:inline">
+                        <button th:href="@{'/eventDetail/delete/' + ${detail.id}}"
+                           onclick="return confirm('Are you sure?');">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h2>Create Event Detail</h2>
+<form th:action="@{/eventDetail/list}" th:object="${eventDetail}" method="post">
+
+    <label>EventDetail Name :</label>
+    <input type="text" th:field="*{name}" />
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    <br>
+
+    <label>Description:</label>
+    <input type="text" th:field="*{description}" />
+    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+
+    <br>
+    <label>locationNote:</label>
+    <input type="text" th:field="*{locationNote}" />
+    <div th:if="${#fields.hasErrors('locationNote')}" th:errors="*{locationNote}"></div>
+
+    <br>
+
+    <label>Select Event:</label>
+    <select th:field="*{event.id}">
+        <option value="">-- Select an Event --</option> <!-- This means 'null' or no selection -->
+        <option th:each="e : ${events}" th:value="${e.id}" th:text="${e.name}">Event</option>
+    </select>
+
+    <button type="submit">Create</button>
+
+    <h2> This button fetch the data.sql</h2>
+    <button type="submit">FETCH</button>
+</form>
+</body>
+<br><br><br>
+<footer>
+    <a th:href="@{/base}" style="padding: 10px; background: #007bff; color: white; border-radius: 5px; text-decoration: none;">
+        Go to Base
+    </a>
+</footer>
+</html>

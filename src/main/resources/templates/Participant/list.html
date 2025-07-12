@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Participant List</title>
+</head>
+
+<body>
+<h2>Participant List</h2>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>Participant ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Actions</th> <!-- add this line -->
+  </tr>
+  </thead>
+  <tbody>
+    <tr th:each="participant : ${participants}">
+        <td th:text="${participant.participantId}"></td>
+        <td th:text="${participant.name}"></td>
+        <td th:text="${participant.email}"></td>
+    <td>
+      <a th:href="@{|/participant_thymeleaf/edit/${participant.id}|}">Edit</a> |
+
+      <form th:action="@{|/participant_thymeleaf/delete/${participant.id}|}" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+  <h2>Create Participant</h2>
+
+  <form th:action="@{/participant_thymeleaf/list}" th:object="${participant}" method="post">
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" />
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+    <br>
+
+    <label>Participant ID:</label>
+    <input type="text" th:field="*{participantId}" />
+    <div th:if="${#fields.hasErrors('participantId')}" th:errors="*{participantId}"></div>
+    <br>
+
+    <label>Email:</label>
+    <input type="email" th:field="*{email}" />
+    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+    <br>
+    <button type="submit">Create table</button>
+  </form>
+
+
+
+<br>
+<br>
+<br>
+<a th:href="@{/base}" style="padding: 10px; background: #007bff; color: white; border-radius: 5px; text-decoration: none;">
+    Go to Base
+</a>
+</body>
+</html>

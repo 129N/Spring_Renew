@@ -1,0 +1,34 @@
+spring.application.name=application
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+
+
+org.mik.yftwrg
+├── ✅controller        // Thymeleaf + REST Controllers
+├── ✅entity            // JPA Entities
+├── ✅repository        // Spring Data JPA Repositories
+├── ✅service           // Business logic
+├── ✅dto               // Optional: DTOs for API layer
+├── ✅config            // Security, application config
+└── ✅DemoApplication.java
+
+
+
+baseEntity: Id, name
+
+Event: has name, date, type
+
+Organizer: name, contact
+
+Participant: name, email
+
+Venue: name, address
+
+
+Common fields:
+id: Long
+
+name: String

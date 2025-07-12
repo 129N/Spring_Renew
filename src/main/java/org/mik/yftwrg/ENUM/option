@@ -1,0 +1,30 @@
+public enum EventType {
+    CONFERENCE("conference"),
+    MEETUP("meetup"),
+    WORKSHOP("workshop"),
+    CONCERT("concert");
+
+    private final String value;
+
+    EventType(String value) {
+        this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    @JsonCreator
+    public static EventType fromValue(String value) {
+        for (EventType type : values()) {
+            if (type.value.equalsIgnoreCase(value)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Invalid event type: " + value);
+    }
+}
+
+
+This way, "conference" or "CONFERENCE" (case-insensitive) from JSON maps to EventType.CONFERENCE.

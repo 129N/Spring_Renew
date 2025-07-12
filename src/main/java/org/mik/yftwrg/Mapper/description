@@ -1,0 +1,20 @@
+Role of EntityMapper Interface
+bridge btw Service and Controllers
+Single responsibility:
+Define a common contract for mapping between
+Entity (JPA domain model) and DTO (Data Transfer Object).
+
+
+
+
+Generalization & Reusability
+-By using generics (<D extends AbstractDTO, E extends BaseEntity>), you define one interface to serve many pairs of DTOs and Entities.
+-Promotes code reuse for all common conversion patterns.
+-Reduces duplication across your concrete mappers (EventMapper, VenueMapper, etc.).
+
+
+3. Decouples Business Logic from Data Mapping
+-Keeps your Service classes clean — they focus on logic, not conversion.
+-You can test mapping logic independently.
+-If DTOs or Entities change, only the mapper is affected, not your business logic.
+

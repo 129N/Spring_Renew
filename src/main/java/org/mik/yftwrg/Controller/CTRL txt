@@ -1,0 +1,136 @@
+@RestController
+@RequestMapping("/api/participants")
+@RequiredArgsConstructor
+public class ParticipantController {
+
+    private final ParticipantService participantService;
+
+    @GetMapping
+    public List<Participant> getAll() {
+        return participantService.getAllParticipants();
+    }
+
+    @GetMapping("/{id}")
+    public Participant getById(@PathVariable Long id) {
+        return participantService.getParticipantById(id);
+    }
+
+    @PostMapping
+    public Participant create(@RequestBody Participant participant) {
+        return participantService.saveParticpant(participant);
+    }
+
+    @PutMapping("/{id}")
+    public Participant update(@PathVariable Long id, @RequestBody Participant participant) {
+        return participantService.updateParticipant(id, participant);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        participantService.deleteParticipant(id);
+    }
+}
+
+
+Controller
+Handle HTTP requests (GET, POST, PUT, DELETE)
+
+Communicate with the Service layer
+
+Return Thymeleaf views or REST API JSON depending on your goal
+
+Folder: controller
+For each entity, create one controller class:
+
+Entity	Controller Suggestion
+Event	EventController.java
+Venue	VenueController.java
+Participant	ParticipantController.java
+Organizer	OrganizerController.java
+
+No AbstractController
+ because no common methods
+
+
+ ✅ 1. Test Your Endpoints (Postman or Browser)
+ Goal: Ensure all REST APIs behave correctly.
+
+ Steps:
+
+ Run your Spring Boot app (DemoApplication.java)
+
+ Use Postman or curl to test endpoints:
+
+ GET /api/events
+
+ POST /api/participants
+
+ PUT /api/venues/{id}
+
+ DELETE /api/organizers/{id}
+
+ Verify expected HTTP responses (200 OK, 201 Created, 404 Not Found, etc.)
+
+ ✅ 2. Add Thymeleaf Templates (for UI Layer)
+ Goal: Build a user-friendly front-end using Thymeleaf.
+
+ Steps:
+
+ In src/main/resources/templates, add HTML files:
+
+ events.html, participants.html, etc.
+
+ Update your controllers to return ModelAndView (or just String view name for Thymeleaf):
+
+ @GetMapping("/events")
+ public String viewEventsPage(Model model) {
+     model.addAttribute("events", eventService.getAllEvents());
+     return "events";
+ }
+ ✅ 3. Add DTOs and Mapper Classes (optional but recommended)
+ Goal: Avoid exposing full entity structure in the API. Control what data is exposed or accepted.
+
+ Steps:
+
+ Create a dto package.
+
+ Define DTOs:
+
+ public class EventDTO {
+     private Long id;
+     private String type;
+     private LocalDateTime date;
+ }
+ Create Mapper methods (manually or using MapStruct or ModelMapper):
+
+ public EventDTO toDTO(Event event) {
+     EventDTO dto = new EventDTO();
+     dto.setId(event.getId());
+     dto.setType(event.getType().name());
+     dto.setDate(event.getDate());
+     return dto;
+ }
+ ✅ 4. Add Validation (Important for production!)
+ Goal: Prevent invalid data from being processed or saved.
+
+ Steps:
+
+ Add validation annotations in entity or DTO:
+ @NotBlank
+ private String name;
+
+ @Email
+ private String email;
+ Enable validation in controller methods:
+
+
+ @PostMapping("/participants")
+ public ResponseEntity<Participant> create(@Valid @RequestBody Participant participant) {
+     return ResponseEntity.ok(participantService.saveParticipant(participant));
+ }
+ Add spring-boot-starter-validation if not present.
+
+
+
+
+

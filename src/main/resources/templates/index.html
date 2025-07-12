@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login / Register</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        .form-box { border: 1px solid #ccc; padding: 20px; margin-bottom: 30px; width: 300px; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; }
+        button { margin-top: 15px; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; width: 100%; }
+        .success-box { margin-top: 20px; padding: 15px; border: 1px solid green; background: #e8ffe8; }
+    </style>
+</head>
+
+<body>
+<h1>Spring Boot is working!</h1>
+
+<a th:href="@{/base}" style="padding: 10px; background: #007bff; color: white; border-radius: 5px; text-decoration: none;">
+    Go to Base
+</a>
+
+<h2>Login</h2>
+
+<div th:if="${error}" style="color:red; margin-bottom: 15px;">
+    <p th:text="${error}"></p>
+</div>
+
+<div class="form-box">
+    <form th:action="@{/login}" method="post">
+        <label>Email:</label>
+        <input type="email" name="email" required>
+        <label>Password:</label>
+        <input type="password" name="password" required>
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+
+<h2>Register</h2>
+<div th:if="${errorREG}" style="color:red; margin-bottom: 15px;">
+    <p th:text="${errorREG}"></p>
+</div>
+
+<div class="form-box">
+    <form th:action="@{/register}" method="post">
+        <label>Email:</label>
+        <input type="email" name="email" required>
+        <label>Password:</label>
+        <input type="password" name="password" required>
+        <label>Role:</label>
+        <select name="role" required>
+            <option value="ADMIN">Admin</option>
+            <option value="PARTICIPANT">Participant</option>
+        </select>
+        <button type="submit">Register</button>
+    </form>
+
+    <!-- Display on successful registration -->
+    <div th:if="${registeredEmail}" class="success-box">
+        <h3>Registration Successful!</h3>
+        <p><strong>Email:</strong> <span th:text="${registeredEmail}"></span></p>
+        <p><strong>Password:</strong> <span th:text="${registeredPassword}"></span></p>
+    </div>
+</div>
+
+
+<!--<button id="truncateBtn">Delete All Data</button>-->
+
+<!--<script>-->
+<!--    document.getElementById("truncateBtn").addEventListener("click", () => {-->
+<!--        fetch('/delete/truncate', {-->
+<!--            method: 'DELETE'-->
+<!--        })-->
+<!--            .then(response => {-->
+<!--                if(response.ok) {-->
+<!--                    alert("All data deleted successfully!");-->
+<!--                } else {-->
+<!--                    alert("Failed to delete data");-->
+<!--                }-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                alert("Error: " + error.message);-->
+<!--            });-->
+<!--    });-->
+<!--</script>-->
+
+</body>
+</html>

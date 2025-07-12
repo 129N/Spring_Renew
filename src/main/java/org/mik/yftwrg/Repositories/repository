@@ -1,0 +1,12 @@
+When Do You Add Custom Query Methods?
+You should add custom methods only when:
+
+You need to query by specific fields (e.g., findByEmail, findByType)
+
+You need to join/filter with specific criteria
+
+You should add @Query or @Modifying queries when:
+
+You need custom complex SQL
+
+You want to perform batch updates, deletes, joins not directly supported by method naming

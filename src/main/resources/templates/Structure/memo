@@ -1,0 +1,18 @@
+src/
+├── main/
+│   └── resources/
+│       └── templates/
+│           │   └── ✅base.html, index.html,login.html
+│           ├── event/
+│           │   └── ✅list.html, create.html
+│           ├── eventDetail/
+│           │   └── ✅list.html, form.html
+│           ├── venue/
+│           │   └──  ✅list.html
+│           ├── organizer/
+│           │   └── ✅list.html, create.html
+│           └── participant/
+│               └── ✅list.html, create.html
+
+
+Now the current process is this(if you have any waste)

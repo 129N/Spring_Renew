@@ -1,0 +1,10 @@
+DTOs (Data Transfer Objects)
+
+Used to decouple your entity layer from API requests/responses
+
+Helps avoid exposing sensitive or unnecessary data
+
+Makes validation and data shaping easier
+
+Typically done before or alongside building REST controllers or
+API responses to separate entity models from external API contracts.

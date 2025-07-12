@@ -1,0 +1,100 @@
+package org.mik.yftwrg.Mapper;
+
+import org.mapstruct.Mapper;
+import org.mik.yftwrg.DTO.EventDTO;
+import org.mik.yftwrg.DTO.ParticipantDTO;
+import org.mik.yftwrg.Entity.Event;
+import org.mik.yftwrg.Entity.Participant;
+
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Mapper(componentModel = "spring", uses = {OrganizerMapper.class, VenueMapper.class, ParticipantMapper.class})
+public class EventMapper implements EntityMapper<Event, EventDTO>{
+//    private final OrganizerMapper organizerMapper = new OrganizerMapper();
+//    private final VenueMapper venueMapper = new VenueMapper();
+//    private final ParticipantMapper participantMapper = new ParticipantMapper();
+
+    @Override
+    //toEntity method
+    public Event toEntity(EventDTO dto){
+        if(dto == null) return null;
+
+        Event entity = new Event();
+        //Event entity has
+        // ✅private LocalDateTime date;
+        //    ✅private EventType type;
+        //    private VenueDTO venuedto;
+        //    private OrganizerDTO organizerdto;
+        //    private Set<ParticipantDTO> competitors;
+        entity.setId(dto.getId());
+        entity.setCreatedAt(dto.getCreated());
+        entity.setUpdatedAt(dto.getUpdated());
+        entity.setType(dto.getType());
+        entity.setDate(dto.getDate());
+
+        entity.setVenue(venueMapper.toEntity(dto.getVenuedto()));
+        entity.setOrganizer(organizerMapper.toEntity(dto.getOrganizerdto()));
+
+        if(dto.getCompetitors() != null){
+            Set<Participant> participants = dto.getCompetitors()
+                    .stream()
+                    .map(participantMapper::toEntity)
+                    .collect(Collectors.toSet());
+            entity.setCompetitors(participants);
+        }
+    return entity;
+    }
+
+    @Override
+    public EventDTO toDto(Event entity){
+            if (entity == null) return null;
+                //
+            EventDTO dto = new EventDTO();
+            dto.setId(entity.getId());
+            dto.setCreated(entity.getCreatedAt());
+            dto.setUpdated(entity.getUpdatedAt());
+            dto.setDate(entity.getDate());
+            dto.setType(entity.getType());
+
+            dto.setVenuedto(venueMapper.toDto(entity.getVenue()));
+            dto.setOrganizerdto(organizerMapper.toDto(entity.getOrganizer()));
+
+            if (entity.getCompetitors() != null) {
+                Set<ParticipantDTO> participants = entity.getCompetitors()
+                        .stream()
+                        .map(participantMapper::toDto)
+                        .collect(Collectors.toSet());
+                dto.setCompetitors(participants);
+            }
+
+            return dto;
+    }
+
+    @Override
+    public void updateFromDto(EventDTO dto, Event entity) {
+        if (dto == null || entity == null) return;
+
+        entity.setDate(dto.getDate());
+        entity.setType(dto.getType());
+
+        if (dto.getVenuedto() != null) {
+            entity.setVenue(venueMapper.toEntity(dto.getVenuedto()));
+        }
+
+        if (dto.getOrganizerdto() != null) {
+            entity.setOrganizer(organizerMapper.toEntity(dto.getOrganizerdto()));
+        }
+
+        if (dto.getCompetitors() != null) {
+            Set<Participant> participants = dto.getCompetitors()
+                    .stream()
+                    .map(participantMapper::toEntity)
+                    .collect(Collectors.toSet());
+            entity.setCompetitors(participants);
+        }
+    }
+
+
+    //final linr
+        }

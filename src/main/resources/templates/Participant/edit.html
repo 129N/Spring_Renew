@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Edit Participant</title>
+</head>
+<body>
+<h2>Edit Participant</h2>
+
+<form th:action="@{|/participant_thymeleaf/edit/${participant.id}|}" th:object="${participant}" method="post">
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" />
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+    <br/>
+
+    <label>Participant ID:</label>
+    <input type="text" th:field="*{participantId}" />
+    <div th:if="${#fields.hasErrors('participantId')}" th:errors="*{participantId}"></div>
+
+    <br/>
+
+    <label>Email Address:</label>
+    <input type="text" th:field="*{email}" />
+    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+    <br/>
+
+    <button type="submit">Update</button>
+    <a th:href="@{/organizer_thymeleaf}">Back to List</a>
+</form>
+</body>
+</html>

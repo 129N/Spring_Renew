@@ -1,0 +1,105 @@
+package org.mik.yftwrg.Mapper;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Named;
+import org.mik.yftwrg.DTO.ParticipantDTO;
+import org.mik.yftwrg.Entity.Event;
+import org.mik.yftwrg.Entity.Participant;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Mapper(componentModel = "spring")
+public abstract class ParticipantMapper implements EntityMapper<Participant, ParticipantDTO> {
+
+    //toDto and toEntity
+
+    @Named("mapIdsToEvents") // Convert Set<Long> to Set<Event>
+    Set<Event> mapIdsToEvents(Set<Long> ids) {
+        if (ids == null) return null;
+        return ids.stream()
+                .map(id -> {
+                    Event event = new Event();
+                    event.setId(id);
+                    return event;
+                })
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Participant toEntity(ParticipantDTO dto){
+        if (dto == null) return null;
+
+        Participant entity = new Participant();
+        //Participant has participantId, email and events
+            entity.setId(dto.getId());
+            entity.setUpdatedAt(dto.getUpdated());
+            entity.setCreatedAt(dto.getCreated());
+
+        entity.setParticipantId(dto.getParticipantId());
+        entity.setEmail(dto.getEmail());
+
+        // Set dummy Event references by ID only (you can load full entities in service later)
+        if(dto.getEventIds() != null){
+            Set<Event> events = dto.getEventIds()
+                    .stream()
+                    .map(id -> {
+                        Event e = new Event();
+                        e.setId(id);
+                        return e;
+                    })
+                    .collect(Collectors.toSet());
+            entity.setEvents(events);
+        }
+
+        return entity;
+    }
+
+    @Override
+    public ParticipantDTO toDto(Participant entity){
+        if (entity == null) return null;
+
+        ParticipantDTO dto = new ParticipantDTO();
+        dto.setId(entity.getId());
+        dto.setCreated(entity.getCreatedAt());
+        dto.setUpdated(entity.getUpdatedAt());
+        dto.setParticipantId(entity.getParticipantId());
+        dto.setEmail(entity.getEmail());
+
+        if (entity.getEvents() != null) {
+            Set<Long> eventIds = entity.getEvents()
+                    .stream()
+                    .map(Event::getId)
+                    .collect(Collectors.toSet());
+            dto.setEventIds(eventIds);
+        } else {
+            dto.setEventIds(new HashSet<>());
+        }
+
+        return dto;
+    }
+
+
+    @Override
+    public void updateFromDto(ParticipantDTO dto, Participant entity) {
+        if (dto == null || entity == null) return;
+
+        entity.setParticipantId(dto.getParticipantId());
+        entity.setEmail(dto.getEmail());
+
+        if (dto.getEventIds() != null) {
+            Set<Event> events = dto.getEventIds()
+                    .stream()
+                    .map(id -> {
+                        Event e = new Event();
+                        e.setId(id);
+                        return e;
+                    })
+                    .collect(Collectors.toSet());
+            entity.setEvents(events);
+        }
+    }
+
+
+}

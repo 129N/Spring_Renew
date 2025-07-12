@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Event Edit</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+
+<body>
+
+<h2>Edit Event</h2>
+
+<form th:action="@{|/events_thymeleaf/edit/${event.id}|}" th:object="${event}" method="post">
+
+    <label>Event Name:</label>
+    <input type="text" th:field="*{name}" /><br/>
+
+    <label>Date:</label>
+    <input type="datetime-local" th:field="*{eventDate}" /><br/>
+
+    <label>Type:</label>
+    <select th:field="*{type}">
+        <option value="">-- Select Type --</option>
+        <option value="TYPE1">TYPE1</option>
+        <option value="TYPE2">TYPE2</option>
+        <option value="TYPE3">TYPE3</option>
+        <option value="TYPE4">TYPE4</option>
+        <option value="TYPE5">TYPE5</option>
+    </select><br/>
+
+    <label>Venue:</label>
+    <select th:field="*{venue.id}">
+        <option value="">-- Select Venue --</option>
+        <option th:each="v : ${venues}" th:value="${v.id}" th:text="${v.name}"
+                th:selected="${v.id == event.venue?.id}"></option>
+    </select><br/>
+
+    <label>Organizer:</label>
+    <select th:field="*{organizer.id}">
+        <option value="">-- Select Organizer --</option>
+        <option th:each="o : ${organizers}" th:value="${o.id}" th:text="${o.name}"
+                th:selected="${o.id == event.organizer?.id}"></option>
+    </select><br/>
+
+    <label>Participants:</label>
+    <select th:field="*{competitors}" multiple>
+        <option th:each="p : ${participants}" th:value="${p.id}" th:text="${p.name}"
+                th:selected="${event.competitors.contains(p)}"></option>
+    </select><br/>
+
+    <button type="submit">Update Event</button>
+
+
+</form>
+
+<a th:href="@{/events_thymeleaf}">Back to Event List</a>
+
+</body>
+</html>

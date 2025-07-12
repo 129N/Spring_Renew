@@ -1,0 +1,27 @@
+ package — Business Logic Layer
+This layer:
+
+Acts as a bridge between controller and repository
+
+Handles operations like save, update, delete, find, or any internal logic.
+
+
+NO ABSTRACTSERVICE: no need to create unless,
+You want to extract shared logic (e.g., findById(), save(), delete()) for all services
+
+You’re working on a large project with many similar services
+
+In your case, creating EventService, VenueService, etc.,
+    without any shared abstract base class is totally fine and
+     actually clearer for learning and smaller projects.
+
+
+     Why use Interface + Implementation?
+     Using interface + implementation pattern gives you:
+
+     Loose coupling: You can swap out implementations (e.g., for testing, alternate strategies)
+
+     Better testing: You can mock the interface in unit tests
+
+     Cleaner code structure: Easier to maintain and scale as your app grows
+

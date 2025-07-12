@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang = "en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Event Management System</title><style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+        color: #333;
+    }
+    header {
+        background-color: #007bff;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+    nav {
+        background-color: #343a40;
+        padding: 10px;
+        text-align: center;
+    }
+    nav a {
+        color: #ffffff;
+        text-decoration: none;
+        margin: 0 15px;
+        font-weight: bold;
+    }
+    nav a:hover {
+        text-decoration: underline;
+        color: #ffc107;
+    }
+    main {
+        padding: 30px;
+        min-height: 400px;
+    }
+    footer {
+        background-color: #e9ecef;
+        padding: 15px;
+        text-align: center;
+        font-size: 0.9em;
+        color: #666;
+    }
+</style>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+        <header><h1>Event Management System (base.html)</h1></header>
+        <!-- fetching the Thymeleaf's folder-->
+            <nav>
+                <a th:href="@{/events_thymeleaf}">Events</a> |
+                <a th:href="@{/eventDetail}">Event Detail</a> |
+                <a th:href="@{/venues_thymeleaf}">Venues</a> |
+                <a th:href="@{/organizer_thymeleaf}">Organizers</a> |
+                <a th:href="@{/participant_thymeleaf}">Participants</a>
+            </nav>
+
+        <main th:fragment="body">
+
+            <a th:href="@{/signout}">Logout</a>
+        </main>
+
+
+        <footer>
+            <p>&copy; 2025 YFTWRG</p>
+        </footer>
+</body>
+</html>

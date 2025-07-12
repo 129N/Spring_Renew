@@ -1,0 +1,66 @@
+package org.mik.yftwrg.Mapper;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mik.yftwrg.DTO.OrganizerDTO;
+import org.mik.yftwrg.Entity.Event;
+import org.mik.yftwrg.Entity.Organizer;
+
+@Mapper(componentModel = "spring")
+public abstract class OrganizerMapper implements EntityMapper<Organizer, OrganizerDTO> {
+
+    @Override
+    public Organizer toEntity(OrganizerDTO dto){
+        if(dto == null) return null;
+
+        Organizer entity = new Organizer();
+        //Org has eventId and contact with id, create and update
+        entity.setId(dto.getId());
+        entity.setCreatedAt(dto.getCreated());
+        entity.setUpdatedAt(dto.getUpdated());
+        entity.setContact(dto.getContact());
+
+        //set event referenced by id
+        if(dto.getEventId() != null){
+            Event event = new Event();
+            event.setId(dto.getEventId());
+            entity.setEvent(event);
+
+        }
+        return entity;
+    }
+
+    @Override
+    public OrganizerDTO toDto(Organizer entity){
+        if(entity == null) return null;
+
+        OrganizerDTO dto = new OrganizerDTO();
+
+        dto.setId(entity.getId());
+        dto.setCreated(entity.getCreatedAt());
+        dto.setUpdated(entity.getUpdatedAt());
+        dto.setContact(entity.getContact());
+
+        if (entity.getEvent() != null) {
+            dto.setEventId(entity.getEvent().getId());
+        }
+        return dto;
+    }
+
+    @Override
+    public void  updateFromDto(OrganizerDTO dto, @MappingTarget  Organizer entity){
+        if (dto == null || entity == null) return;
+        entity.setContact(entity.getContact());
+
+        if(dto.getEventId() != null){
+            Event event = new Event();
+            event.setId(dto.getEventId());
+            entity.setEvent(event);
+        }else{
+            entity.setEvent(null);
+        }
+    }
+
+
+    //final line
+}

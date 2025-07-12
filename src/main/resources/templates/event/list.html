@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+
+<body>
+<h1>Event List</h1>
+
+<table border="1">
+  <thead>
+  <tr>
+      <th>Event Name</th>
+      <th>Date</th>
+      <th>Type</th>
+      <th>Organizer</th>
+      <th>Venue</th>
+      <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr th:each="event : ${events}">
+        <td th:text="${event.name} ?: 'Not written in the table' "></td>
+        <td th:text="${event.eventDate != null ? #temporals.format(event.eventDate, 'yyyy-MM-dd HH:mm') : 'Not written in the table'}"></td>
+        <td th:text="${event.type != null ?: 'Not written in the table'  }"></td>
+        <td th:text="${event.organizer != null ?: 'Not written in the table'  }"> </td>
+        <td th:text="${event.venue != null ? event.venue.name : 'Not written in the table'}"></td>
+        <td>
+            <a th:href="@{|/events_thymeleaf/edit/${event.id}|}">Edit</a>|
+
+            <form th:action="@{|/events_thymeleaf/delete/${event.id}|}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?');">Delete</button>
+
+            </form>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<h2>Create Event</h2>
+
+
+<form th:action="@{/events_thymeleaf/list}" th:object="${event}" method="post">
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    <!-- connecting to EventPageController.java-->
+    <!--    events_thymeleaf/""-->
+
+    <label>Event Name:</label>
+    <input type="text" th:field="*{name}" /><br/> <!-- this "*{name}" comes from base entity -->
+
+    <label>Date:</label>
+    <input type="datetime-local" th:field="*{eventDate}" /><br/>
+
+    <label>Type:</label>
+    <select th:field="*{type}">  <!-- this "*{type}" comes from Event entity -->
+        <option value="">-- Select Type --</option>
+        <option value="TYPE1">TYPE1</option>
+        <option value="TYPE2">TYPE2</option>
+        <option value="TYPE3">TYPE3</option>
+        <option value="TYPE4">TYPE4</option>
+        <option value="TYPE5">TYPE5</option>
+
+
+    </select><br/>
+
+    <label>Venue:</label>
+    <select th:field="*{venue.id}">
+        <option value="">-- Select Venue --</option>
+        <option th:each="v : ${venues}" th:value="${v.id}" th:text="${v.name}"></option>
+            <!-- venues as v -> this v is used for the prefix of v-->
+    </select><br/>
+
+    <label>Organizer:</label>
+    <select th:field="*{organizer.id}">
+        <option value="">-- Select Organizer --</option>
+        <option th:each="o : ${organizers}"
+                th:value="${o.id}"
+                th:text="${o.name}"></option>
+        <!-- organizers as o -> this o is used for the prefix of o-->
+    </select><br/>
+
+    <!-- Optional: Multi-select Participants -->
+    <label>Participants:</label>
+    <select th:field="*{competitors}" multiple>
+        <option th:each="p : ${participants}" th:value="${p.id}" th:text="${p.name}"></option>
+    </select><br/>
+
+    <button type="submit">Save Event</button>
+
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+</form>
+
+
+
+
+</body>
+ <br><br><br><br>
+<footer>
+    <a th:href="@{/base}" style="padding: 10px; background: #007bff; color: white; border-radius: 5px; text-decoration: none;">
+        Go to Base
+    </a>
+</footer>
+
+</html>

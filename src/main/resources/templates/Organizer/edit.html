@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Edit Organizer</title>
+</head>
+<body>
+<h2>Edit Organizer</h2>
+
+<form th:action="@{|/organizer_thymeleaf/edit/${organizer.id}|}" th:object="${organizer}" method="post">
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" />
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+    <br/>
+
+    <label>Contact:</label>
+    <input type="text" th:field="*{contact}" />
+    <div th:if="${#fields.hasErrors('contact')}" th:errors="*{contact}"></div>
+
+    <br/>
+
+    <button type="submit">Update</button>
+    <a th:href="@{/organizer_thymeleaf}">Back to List</a>
+</form>
+</body>
+</html>
