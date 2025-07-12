@@ -5,8 +5,7 @@ Spring Boot 3.4.3 with JWT authentication Database Project.
 ```bash
 https://start.spring.io/
 ```
-##　YFTWRG is main　##
-##　YFTWRG を開いてください。　##
+
 # Project Overview /概要
 このプロジェクトは、Spring Boot をベースにした RESTful API サーバーの構築を通じて、認証、データベース、DTO変換、ドキュメント生成、そしてアノテーションベース設計を学ぶ教育的テンプレートです。
 
